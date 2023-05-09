@@ -29,9 +29,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
           ..fetchPopularMovies()
           ..fetchTopRatedMovies());
 
-    Future.microtask(() =>
-        Provider.of<TvSeriesListNotifier>(context, listen: false)
-          ..fetchOnTheAirTvSeries());
+    Future.microtask(
+        () => Provider.of<TvSeriesListNotifier>(context, listen: false)
+          ..fetchOnTheAirTvSeries()
+          ..fetchPopularTvSeries());
   }
 
   @override
@@ -105,7 +106,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 }
               }),
               _buildSubHeading(
-                title: 'Popular',
+                title: 'Popular Movie',
                 onTap: () =>
                     Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
               ),
@@ -150,6 +151,23 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   );
                 } else if (state == RequestState.Loaded) {
                   return TvSeriesList(data.onTheAirTvSeries);
+                } else {
+                  return Text('Failed');
+                }
+              }),
+              _buildSubHeading(
+                title: 'Popular TV Series',
+                onTap: () =>
+                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+              ),
+              Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
+                final state = data.popularTvSeriesState;
+                if (state == RequestState.Loading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state == RequestState.Loaded) {
+                  return TvSeriesList(data.popularTvSeries);
                 } else {
                   return Text('Failed');
                 }

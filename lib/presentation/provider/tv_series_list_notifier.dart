@@ -1,23 +1,33 @@
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/usecases/get_on_the_air_tv_series.dart';
+import 'package:ditonton/domain/usecases/get_popular_tv_series.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../common/state_enum.dart';
 
 class TvSeriesListNotifier extends ChangeNotifier {
   var _onTheAirTvSeries = <TvSeries>[];
-
   List<TvSeries> get onTheAirTvSeries => _onTheAirTvSeries;
 
   RequestState _onTheAirTvState = RequestState.Empty;
   RequestState get onTheAirTvState => _onTheAirTvState;
 
+  var _popularTvSeries = <TvSeries>[];
+  List<TvSeries> get popularTvSeries => _popularTvSeries;
+
+  RequestState _popularTvSeriesState = RequestState.Empty;
+  RequestState get popularTvSeriesState => _popularTvSeriesState;
+
   String _message = '';
   String get message => _message;
 
-  TvSeriesListNotifier({required this.getOnTheAirTvSeries});
+  TvSeriesListNotifier({
+    required this.getOnTheAirTvSeries,
+    required this.getPopularTvSeries,
+  });
 
   final GetOnTheAirTvSeries getOnTheAirTvSeries;
+  final GetPopularTvSeries getPopularTvSeries;
 
   Future<void> fetchOnTheAirTvSeries() async {
     _onTheAirTvState = RequestState.Loading;
@@ -33,6 +43,25 @@ class TvSeriesListNotifier extends ChangeNotifier {
       (tvSeriesData) {
         _onTheAirTvState = RequestState.Loaded;
         _onTheAirTvSeries = tvSeriesData;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> fetchPopularTvSeries() async {
+    _popularTvSeriesState = RequestState.Loading;
+    notifyListeners();
+
+    final result = await getPopularTvSeries.execute();
+    result.fold(
+      (failure) {
+        _popularTvSeriesState = RequestState.Error;
+        _message = failure.message;
+        notifyListeners();
+      },
+      (moviesData) {
+        _popularTvSeriesState = RequestState.Loaded;
+        _popularTvSeries = moviesData;
         notifyListeners();
       },
     );
