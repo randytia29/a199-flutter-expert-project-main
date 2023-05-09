@@ -1,0 +1,40 @@
+import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/domain/usecases/get_on_the_air_tv_series.dart';
+import 'package:flutter/foundation.dart';
+
+import '../../common/state_enum.dart';
+
+class TvSeriesListNotifier extends ChangeNotifier {
+  var _onTheAirTvSeries = <TvSeries>[];
+
+  List<TvSeries> get onTheAirTvSeries => _onTheAirTvSeries;
+
+  RequestState _onTheAirTvState = RequestState.Empty;
+  RequestState get onTheAirTvState => _onTheAirTvState;
+
+  String _message = '';
+  String get message => _message;
+
+  TvSeriesListNotifier({required this.getOnTheAirTvSeries});
+
+  final GetOnTheAirTvSeries getOnTheAirTvSeries;
+
+  Future<void> fetchOnTheAirTvSeries() async {
+    _onTheAirTvState = RequestState.Loading;
+    notifyListeners();
+
+    final result = await getOnTheAirTvSeries.execute();
+    result.fold(
+      (failure) {
+        _onTheAirTvState = RequestState.Error;
+        _message = failure.message;
+        notifyListeners();
+      },
+      (tvSeriesData) {
+        _onTheAirTvState = RequestState.Loaded;
+        _onTheAirTvSeries = tvSeriesData;
+        notifyListeners();
+      },
+    );
+  }
+}
