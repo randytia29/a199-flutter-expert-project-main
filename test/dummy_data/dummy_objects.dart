@@ -2,6 +2,7 @@ import 'package:ditonton/data/models/movie_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
+import 'package:ditonton/domain/entities/tv_series_detail.dart';
 
 final testMovie = Movie(
   adult: false,
@@ -33,6 +34,20 @@ final testMovieDetail = MovieDetail(
   releaseDate: 'releaseDate',
   runtime: 120,
   title: 'title',
+  voteAverage: 1,
+  voteCount: 1,
+);
+
+final testTvSeriesDetail = TvSeriesDetail(
+  adult: false,
+  backdropPath: 'backdropPath',
+  genres: [Genre(id: 1, name: 'Action')],
+  id: 1,
+  originalName: 'originalName',
+  overview: 'overview',
+  posterPath: 'posterPath',
+  firstAirDate: 'firstAirDate',
+  name: 'name',
   voteAverage: 1,
   voteCount: 1,
 );
