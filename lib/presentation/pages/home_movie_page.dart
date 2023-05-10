@@ -16,6 +16,8 @@ import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'tv_series_detail_page.dart';
+
 class HomeMoviePage extends StatefulWidget {
   @override
   _HomeMoviePageState createState() => _HomeMoviePageState();
@@ -282,7 +284,7 @@ class TvSeriesList extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  MovieDetailPage.ROUTE_NAME,
+                  TvSeriesDetailPage.ROUTE_NAME,
                   arguments: tvSerie.id,
                 );
               },
