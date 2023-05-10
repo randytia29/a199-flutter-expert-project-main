@@ -124,4 +124,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TvSeries>>> getWatchlistTvSeries() async {
+    final result = await localDataSource.getWatchlistTvSeries();
+    return Right(result.map((data) => data.toEntity()).toList());
+  }
 }
