@@ -60,7 +60,7 @@ final testTvSeriesDetail = TvSeriesDetail(
   id: 1,
   overview: 'overview',
   posterPath: 'posterPath',
-  firstAirDate: 'firstAirDate',
+  firstAirDate: '2011-04-17',
   name: 'name',
   voteAverage: 1,
   voteCount: 1,
@@ -69,6 +69,13 @@ final testTvSeriesDetail = TvSeriesDetail(
 final testWatchlistMovie = Movie.watchlist(
   id: 1,
   title: 'title',
+  posterPath: 'posterPath',
+  overview: 'overview',
+);
+
+final testWatchlistTvSeries = TvSeries.watchlist(
+  id: 1,
+  name: 'name',
   posterPath: 'posterPath',
   overview: 'overview',
 );
