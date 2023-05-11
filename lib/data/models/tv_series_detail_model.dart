@@ -5,14 +5,12 @@ import '../../domain/entities/tv_series_detail.dart';
 
 class TvSeriesDetailResponse extends Equatable {
   TvSeriesDetailResponse({
-    required this.adult,
     required this.backdropPath,
     required this.genres,
     required this.homepage,
     required this.id,
     required this.imdbId,
     required this.originalLanguage,
-    required this.originalName,
     required this.overview,
     required this.popularity,
     required this.posterPath,
@@ -24,14 +22,12 @@ class TvSeriesDetailResponse extends Equatable {
     required this.voteCount,
   });
 
-  final bool adult;
   final String? backdropPath;
   final List<GenreModel> genres;
   final String homepage;
   final int id;
   final String? imdbId;
   final String originalLanguage;
-  final String originalName;
   final String overview;
   final double popularity;
   final String posterPath;
@@ -44,7 +40,6 @@ class TvSeriesDetailResponse extends Equatable {
 
   factory TvSeriesDetailResponse.fromJson(Map<String, dynamic> json) =>
       TvSeriesDetailResponse(
-        adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genres: List<GenreModel>.from(
             json["genres"].map((x) => GenreModel.fromJson(x))),
@@ -52,7 +47,6 @@ class TvSeriesDetailResponse extends Equatable {
         id: json["id"],
         imdbId: json["imdb_id"],
         originalLanguage: json["original_language"],
-        originalName: json["original_name"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"],
@@ -65,14 +59,12 @@ class TvSeriesDetailResponse extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        "adult": adult,
         "backdrop_path": backdropPath,
         "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
         "homepage": homepage,
         "id": id,
         "imdb_id": imdbId,
         "original_language": originalLanguage,
-        "original_name": originalName,
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
@@ -86,11 +78,9 @@ class TvSeriesDetailResponse extends Equatable {
 
   TvSeriesDetail toEntity() {
     return TvSeriesDetail(
-      adult: this.adult,
       backdropPath: this.backdropPath,
       genres: this.genres.map((genre) => genre.toEntity()).toList(),
       id: this.id,
-      originalName: this.originalName,
       overview: this.overview,
       posterPath: this.posterPath,
       firstAirDate: this.firstAirDate,
@@ -102,14 +92,12 @@ class TvSeriesDetailResponse extends Equatable {
 
   @override
   List<Object?> get props => [
-        adult,
         backdropPath,
         genres,
         homepage,
         id,
         imdbId,
         originalLanguage,
-        originalName,
         overview,
         popularity,
         posterPath,
