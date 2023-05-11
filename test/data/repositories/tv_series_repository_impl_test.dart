@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/data/models/genre_model.dart';
+import 'package:ditonton/data/models/seasons_model.dart';
 import 'package:ditonton/data/models/tv_series_detail_model.dart';
 import 'package:ditonton/data/models/tv_series_model.dart';
 import 'package:ditonton/common/exception.dart';
@@ -202,6 +203,16 @@ void main() {
       voteCount: 1,
       firstAirDate: '2011-04-17',
       name: 'name',
+      seasons: [
+        SeasonsModel(
+          episodeCount: 1,
+          id: 1,
+          name: 'name',
+          overview: 'overview',
+          posterPath: 'posterPath',
+          seasonNumber: 1,
+        )
+      ],
     );
 
     test(

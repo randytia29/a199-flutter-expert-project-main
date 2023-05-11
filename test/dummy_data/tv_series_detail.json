@@ -27,6 +27,16 @@
       "name": "United States of America"
     }
   ],
+  "seasons": [
+    {
+      "episode_count": 64,
+      "id": 3627,
+      "name": "Specials",
+      "overview": "",
+      "poster_path": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+      "season_number": 0
+    }
+  ],
   "first_air_date": "2011-04-17",
   "spoken_languages": [
     {

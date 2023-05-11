@@ -171,6 +171,57 @@ class DetailContent extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: 16),
+                            Container(
+                              height: 175,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: tvSeries.seasons.length,
+                                itemBuilder: (context, index) {
+                                  final season = tvSeries.seasons[index];
+
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 150,
+                                        height: 125,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                'https://image.tmdb.org/t/p/w500${season.posterPath ?? tvSeries.posterPath}',
+                                            placeholder: (context, url) =>
+                                                Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(season.name ?? ''),
+                                      Text(
+                                        '${season.episodeCount.toString()} Episode',
+                                      ),
+                                    ],
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return SizedBox(
+                                    width: 8,
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 16),
                             Text(
                               'Overview',
                               style: kTitleLarge,
