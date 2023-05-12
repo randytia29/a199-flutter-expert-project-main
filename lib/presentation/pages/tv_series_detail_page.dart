@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/domain/entities/genre.dart';
+import 'package:ditonton/features/movie/domain/entities/genre.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
