@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/data/models/tv_series_table.dart';
+import 'package:ditonton/features/tv_series/data/models/tv_series_table.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:dartz/dartz.dart';

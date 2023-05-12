@@ -17,12 +17,16 @@ import 'package:ditonton/data/datasources/tv_series_local_data_source.dart'
     as _i20;
 import 'package:ditonton/data/datasources/tv_series_remote_data_source.dart'
     as _i18;
-import 'package:ditonton/data/models/movie_detail_model.dart' as _i3;
-import 'package:ditonton/data/models/movie_model.dart' as _i12;
-import 'package:ditonton/data/models/movie_table.dart' as _i14;
-import 'package:ditonton/data/models/tv_series_detail_model.dart' as _i4;
-import 'package:ditonton/data/models/tv_series_model.dart' as _i19;
-import 'package:ditonton/data/models/tv_series_table.dart' as _i21;
+import 'package:ditonton/features/movie/data/models/movie_detail_model.dart'
+    as _i3;
+import 'package:ditonton/features/movie/data/models/movie_model.dart' as _i12;
+import 'package:ditonton/features/movie/data/models/movie_table.dart' as _i14;
+import 'package:ditonton/features/tv_series/data/models/tv_series_detail_model.dart'
+    as _i4;
+import 'package:ditonton/features/tv_series/data/models/tv_series_model.dart'
+    as _i19;
+import 'package:ditonton/features/tv_series/data/models/tv_series_table.dart'
+    as _i21;
 import 'package:ditonton/features/movie/domain/entities/movie.dart' as _i9;
 import 'package:ditonton/features/movie/domain/entities/movie_detail.dart'
     as _i10;

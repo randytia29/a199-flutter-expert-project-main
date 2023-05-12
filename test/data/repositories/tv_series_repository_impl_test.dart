@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/data/models/genre_model.dart';
-import 'package:ditonton/data/models/seasons_model.dart';
-import 'package:ditonton/data/models/tv_series_detail_model.dart';
-import 'package:ditonton/data/models/tv_series_model.dart';
+import 'package:ditonton/features/movie/data/models/genre_model.dart';
+import 'package:ditonton/features/tv_series/data/models/seasons_model.dart';
+import 'package:ditonton/features/tv_series/data/models/tv_series_detail_model.dart';
+import 'package:ditonton/features/tv_series/data/models/tv_series_model.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/data/repositories/tv_series_repository_impl.dart';
