@@ -1,6 +1,10 @@
+import 'package:ditonton/features/tv_series/presentation/cubit/change_watchlist_tv_series_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/popular_tv_series_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/top_rated_tv_series_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_detail_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_recommendation_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_watchlist_status_cubit.dart';
 import 'package:ditonton/helpers/database_helper.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_remote_data_source.dart';
@@ -46,13 +50,22 @@ import 'features/movie/domain/usecases/search_movies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  // bloc
+  // Bloc
+
+  // Tv Series
   locator
       .registerFactory(() => TvSeriesOnAirCubit(onTheAirTvSeries: locator()));
   locator
       .registerFactory(() => PopularTvSeriesCubit(popularTvSeries: locator()));
   locator.registerFactory(
       () => TopRatedTvSeriesCubit(topRatedTvSeries: locator()));
+  locator.registerFactory(() => TvSeriesDetailCubit(tvSeriesDetail: locator()));
+  locator.registerFactory(
+      () => TvSeriesRecommendationCubit(tvSeriesRecommendations: locator()));
+  locator.registerFactory(
+      () => TvSeriesWatchlistStatusCubit(tvSeriesWatchListStatus: locator()));
+  locator.registerFactory(() => ChangeWatchlistTvSeriesCubit(
+      saveTvSeries: locator(), removeTvSeries: locator()));
 
   // provider
   locator.registerFactory(
