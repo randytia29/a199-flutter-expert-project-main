@@ -1,5 +1,5 @@
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/get_popular_tv_series.dart';
+import 'package:ditonton/features/tv_series/domain/usecases/get_popular_tv_series.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../common/state_enum.dart';

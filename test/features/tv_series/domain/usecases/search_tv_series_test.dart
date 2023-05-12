@@ -1,30 +1,29 @@
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/get_tv_series_recommendations.dart';
+import 'package:ditonton/features/tv_series/domain/usecases/search_tv_series.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../helpers/test_helper.mocks.dart';
+import '../../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late GetTvSeriesRecommendations usecase;
+  late SearchTvSeries usecase;
   late MockTvSeriesRepository mockTvSeriesRepository;
 
   setUp(() {
     mockTvSeriesRepository = MockTvSeriesRepository();
-    usecase = GetTvSeriesRecommendations(mockTvSeriesRepository);
+    usecase = SearchTvSeries(mockTvSeriesRepository);
   });
 
-  final tId = 1;
   final tTvSeries = <TvSeries>[];
+  final tQuery = 'Spiderman';
 
-  test('should get list of tv series recommendations from the repository',
-      () async {
+  test('should get list of tv series from the repository', () async {
     // arrange
-    when(mockTvSeriesRepository.getTvSeriesRecommendations(tId))
+    when(mockTvSeriesRepository.searchTvSeries(tQuery))
         .thenAnswer((_) async => Right(tTvSeries));
     // act
-    final result = await usecase.execute(tId);
+    final result = await usecase.execute(tQuery);
     // assert
     expect(result, Right(tTvSeries));
   });
