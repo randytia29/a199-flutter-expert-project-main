@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ditonton/data/datasources/tv_series_remote_data_source.dart';
+import 'package:ditonton/features/tv_series/data/datasources/tv_series_remote_data_source.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/features/tv_series/data/models/tv_series_detail_model.dart';
 import 'package:ditonton/features/tv_series/data/models/tv_series_response.dart';
@@ -8,8 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 
-import '../../json_reader.dart';
-import '../../helpers/test_helper.mocks.dart';
+import '../../../../json_reader.dart';
+import '../../../../helpers/test_helper.mocks.dart';
 
 void main() {
   const API_KEY = 'api_key=2174d146bb9c0eab47529b2e77d6b526';

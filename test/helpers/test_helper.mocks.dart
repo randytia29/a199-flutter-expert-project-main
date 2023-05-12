@@ -9,13 +9,14 @@ import 'dart:typed_data' as _i25;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:ditonton/common/failure.dart' as _i8;
-import 'package:ditonton/data/datasources/db/database_helper.dart' as _i22;
-import 'package:ditonton/data/datasources/movie_local_data_source.dart' as _i13;
-import 'package:ditonton/data/datasources/movie_remote_data_source.dart'
+import 'package:ditonton/helpers/database_helper.dart' as _i22;
+import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart'
+    as _i13;
+import 'package:ditonton/features/movie/data/datasources/movie_remote_data_source.dart'
     as _i11;
-import 'package:ditonton/data/datasources/tv_series_local_data_source.dart'
+import 'package:ditonton/features/tv_series/data/datasources/tv_series_local_data_source.dart'
     as _i20;
-import 'package:ditonton/data/datasources/tv_series_remote_data_source.dart'
+import 'package:ditonton/features/tv_series/data/datasources/tv_series_remote_data_source.dart'
     as _i18;
 import 'package:ditonton/features/movie/data/models/movie_detail_model.dart'
     as _i3;

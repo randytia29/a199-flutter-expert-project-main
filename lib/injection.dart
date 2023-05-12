@@ -1,10 +1,10 @@
-import 'package:ditonton/data/datasources/db/database_helper.dart';
-import 'package:ditonton/data/datasources/movie_local_data_source.dart';
-import 'package:ditonton/data/datasources/movie_remote_data_source.dart';
-import 'package:ditonton/data/datasources/tv_series_local_data_source.dart';
-import 'package:ditonton/data/datasources/tv_series_remote_data_source.dart';
-import 'package:ditonton/data/repositories/movie_repository_impl.dart';
-import 'package:ditonton/data/repositories/tv_series_repository_impl.dart';
+import 'package:ditonton/helpers/database_helper.dart';
+import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart';
+import 'package:ditonton/features/movie/data/datasources/movie_remote_data_source.dart';
+import 'package:ditonton/features/tv_series/data/datasources/tv_series_local_data_source.dart';
+import 'package:ditonton/features/tv_series/data/datasources/tv_series_remote_data_source.dart';
+import 'package:ditonton/features/movie/data/repositories/movie_repository_impl.dart';
+import 'package:ditonton/features/tv_series/data/repositories/tv_series_repository_impl.dart';
 import 'package:ditonton/features/movie/domain/repositories/movie_repository.dart';
 import 'package:ditonton/features/tv_series/domain/repositories/tv_series_repository.dart';
 import 'package:ditonton/features/tv_series/domain/usecases/get_on_the_air_tv_series.dart';

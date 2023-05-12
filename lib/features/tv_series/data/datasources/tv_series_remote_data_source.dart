@@ -4,8 +4,8 @@ import 'package:ditonton/features/tv_series/data/models/tv_series_detail_model.d
 import 'package:ditonton/features/tv_series/data/models/tv_series_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../common/exception.dart';
-import '../../features/tv_series/data/models/tv_series_response.dart';
+import '../../../../common/exception.dart';
+import '../models/tv_series_response.dart';
 
 abstract class TvSeriesRemoteDataSource {
   Future<List<TvSeriesModel>> getOnTheAirTvSeries();
