@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/features/movie/domain/entities/movie.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
@@ -14,6 +15,7 @@ import 'package:ditonton/features/movie/presentation/provider/movie_list_notifie
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/tv_series_list_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'tv_series_detail_page.dart';
@@ -27,6 +29,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
+
+    context.read<TvSeriesOnAirCubit>().fetchOnTheAirTvSeries();
+
     Future.microtask(
         () => Provider.of<MovieListNotifier>(context, listen: false)
           ..fetchNowPlayingMovies()
@@ -35,7 +40,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
 
     Future.microtask(
         () => Provider.of<TvSeriesListNotifier>(context, listen: false)
-          ..fetchOnTheAirTvSeries()
           ..fetchPopularTvSeries()
           ..fetchTopRatedTvSeries());
   }
@@ -148,18 +152,33 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 'On The Air TV Series',
                 style: kTitleLarge,
               ),
-              Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
-                final state = data.onTheAirTvState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TvSeriesList(data.onTheAirTvSeries);
-                } else {
+              BlocBuilder<TvSeriesOnAirCubit, TvSeriesOnAirState>(
+                builder: (context, tvSeriesOnAirState) {
+                  if (tvSeriesOnAirState is TvSeriesOnAirLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (tvSeriesOnAirState is TvSeriesOnAirLoaded) {
+                    return TvSeriesList(tvSeriesOnAirState.tvSeries);
+                  }
+
                   return Text('Failed');
-                }
-              }),
+                },
+              ),
+              // Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
+              //   final state = data.onTheAirTvState;
+              //   if (state == RequestState.Loading) {
+              //     return Center(
+              //       child: CircularProgressIndicator(),
+              //     );
+              //   } else if (state == RequestState.Loaded) {
+              //     return TvSeriesList(data.onTheAirTvSeries);
+              //   } else {
+              //     return Text('Failed');
+              //   }
+              // }),
               _buildSubHeading(
                 title: 'Popular TV Series',
                 onTap: () => Navigator.pushNamed(

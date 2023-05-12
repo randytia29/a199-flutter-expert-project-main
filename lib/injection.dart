@@ -1,3 +1,4 @@
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/helpers/database_helper.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_remote_data_source.dart';
@@ -46,6 +47,10 @@ import 'features/movie/domain/usecases/search_movies.dart';
 final locator = GetIt.instance;
 
 void init() {
+  // bloc
+  locator
+      .registerFactory(() => TvSeriesOnAirCubit(onTheAirTvSeries: locator()));
+
   // provider
   locator.registerFactory(
     () => MovieListNotifier(
