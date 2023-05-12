@@ -4,6 +4,7 @@ import 'package:ditonton/features/tv_series/presentation/cubit/top_rated_tv_seri
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_detail_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_recommendation_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_search_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_watchlist_status_cubit.dart';
 import 'package:ditonton/helpers/database_helper.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart';
@@ -29,7 +30,6 @@ import 'package:ditonton/features/movie/presentation/provider/movie_list_notifie
 import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/tv_series_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/watchlist_tv_series_notifier.dart';
 import 'package:http/http.dart' as http;
@@ -65,6 +65,7 @@ void init() {
       () => TvSeriesWatchlistStatusCubit(tvSeriesWatchListStatus: locator()));
   locator.registerFactory(() => ChangeWatchlistTvSeriesCubit(
       saveTvSeries: locator(), removeTvSeries: locator()));
+  locator.registerFactory(() => TvSeriesSearchCubit(tvSeriesSearch: locator()));
 
   // provider
   locator.registerFactory(
@@ -101,11 +102,6 @@ void init() {
   locator.registerFactory(
     () => WatchlistMovieNotifier(
       getWatchlistMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TvSeriesSearchNotifier(
-      searchTvSeries: locator(),
     ),
   );
   locator.registerFactory(

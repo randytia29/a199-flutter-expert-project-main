@@ -3,9 +3,10 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../features/tv_series/presentation/provider/tv_series_search_notifier.dart';
+import '../../features/tv_series/presentation/cubit/tv_series_search_cubit.dart';
 import '../../features/tv_series/presentation/widgets/tv_series_card_list.dart';
 
 class SearchPage extends StatefulWidget {
@@ -46,8 +47,8 @@ class _SearchPageState extends State<SearchPage>
               onSubmitted: (query) {
                 Provider.of<MovieSearchNotifier>(context, listen: false)
                     .fetchMovieSearch(query);
-                Provider.of<TvSeriesSearchNotifier>(context, listen: false)
-                    .fetchTvSeriesSearch(query);
+
+                context.read<TvSeriesSearchCubit>().fetchTvSeriesSearch(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -103,27 +104,47 @@ class _SearchPageState extends State<SearchPage>
                       }
                     },
                   ),
-                  Consumer<TvSeriesSearchNotifier>(
-                    builder: (context, data, child) {
-                      if (data.state == RequestState.Loading) {
+                  BlocBuilder<TvSeriesSearchCubit, TvSeriesSearchState>(
+                    builder: (context, tvSeriesSearchState) {
+                      if (tvSeriesSearchState is TvSeriesSearchLoading) {
                         return Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else if (data.state == RequestState.Loaded) {
-                        final result = data.searchResult;
+                      }
+
+                      if (tvSeriesSearchState is TvSeriesSearchInitial) {
+                        return Container(
+                          child: Center(
+                            child: Text('Tidak ada daftar yang ditampilkan'),
+                          ),
+                        );
+                      }
+
+                      if (tvSeriesSearchState is TvSeriesSearchLoaded) {
+                        final tvSeries = tvSeriesSearchState.tvSeries;
+
+                        if (tvSeries.isEmpty) {
+                          return Container(
+                            child: Center(
+                              child: Text('Tidak ada daftar yang ditampilkan'),
+                            ),
+                          );
+                        }
+
                         return ListView.builder(
                           padding: const EdgeInsets.all(8),
                           itemBuilder: (context, index) {
-                            final tvSeries = data.searchResult[index];
-                            return TvSeriesCard(tvSeries);
+                            final tvSerie = tvSeries[index];
+
+                            return TvSeriesCard(tvSerie);
                           },
-                          itemCount: result.length,
+                          itemCount: tvSeries.length,
                         );
-                      } else {
-                        return Container();
                       }
+
+                      return Container();
                     },
-                  )
+                  ),
                 ],
               ),
             ),
