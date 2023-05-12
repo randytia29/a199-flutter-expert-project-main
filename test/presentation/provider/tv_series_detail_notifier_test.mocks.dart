@@ -7,9 +7,12 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:ditonton/common/failure.dart' as _i6;
-import 'package:ditonton/domain/entities/tv_series.dart' as _i9;
-import 'package:ditonton/domain/entities/tv_series_detail.dart' as _i7;
-import 'package:ditonton/domain/repositories/tv_series_repository.dart' as _i2;
+import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart'
+    as _i9;
+import 'package:ditonton/features/tv_series/domain/entities/tv_series_detail.dart'
+    as _i7;
+import 'package:ditonton/features/tv_series/domain/repositories/tv_series_repository.dart'
+    as _i2;
 import 'package:ditonton/domain/usecases/get_tv_series_detail.dart' as _i4;
 import 'package:ditonton/domain/usecases/get_tv_series_recommendations.dart'
     as _i8;

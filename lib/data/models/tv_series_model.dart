@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/tv_series.dart';
+import '../../features/tv_series/domain/entities/tv_series.dart';
 
 class TvSeriesModel extends Equatable {
   final String? posterPath;

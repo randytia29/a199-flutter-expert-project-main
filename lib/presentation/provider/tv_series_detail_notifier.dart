@@ -1,11 +1,11 @@
-import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/usecases/get_tv_series_watchlist_status.dart';
 import 'package:ditonton/domain/usecases/remove_tv_series_watchlist.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/tv_series_detail.dart';
+import '../../features/tv_series/domain/entities/tv_series_detail.dart';
 import '../../domain/usecases/get_tv_series_detail.dart';
 import '../../domain/usecases/get_tv_series_recommendations.dart';
 import '../../domain/usecases/save_tv_series_watchlist.dart';

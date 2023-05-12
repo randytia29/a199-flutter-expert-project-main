@@ -1,4 +1,4 @@
-import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/usecases/get_on_the_air_tv_series.dart';
 import 'package:ditonton/domain/usecases/get_popular_tv_series.dart';
 import 'package:ditonton/domain/usecases/get_top_rated_tv_series.dart';
