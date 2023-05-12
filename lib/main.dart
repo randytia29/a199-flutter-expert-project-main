@@ -1,6 +1,7 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/popular_tv_series_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/top_rated_tv_series_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
@@ -17,9 +18,7 @@ import 'package:ditonton/features/movie/presentation/provider/movie_list_notifie
 import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/tv_series_detail_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/tv_series_list_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/tv_series_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/watchlist_tv_series_notifier.dart';
@@ -58,12 +57,6 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
         ChangeNotifierProvider(
-          create: (context) => di.locator<TvSeriesListNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => di.locator<TopRatedTvSeriesNotifier>(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => di.locator<TvSeriesDetailNotifier>(),
         ),
         ChangeNotifierProvider(
@@ -80,6 +73,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => di.locator<PopularTvSeriesCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<TopRatedTvSeriesCubit>(),
           ),
         ],
         child: MaterialApp(

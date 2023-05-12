@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
+import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/features/tv_series/domain/usecases/get_popular_tv_series.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/popular_tv_series_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +21,19 @@ void main() {
         PopularTvSeriesCubit(popularTvSeries: mockGetPopularTvSeries);
   });
 
+  final tTvSeries = TvSeries(
+    backdropPath: 'backdropPath',
+    genreIds: [1, 2, 3],
+    id: 1,
+    overview: 'overview',
+    popularity: 1,
+    posterPath: 'posterPath',
+    voteAverage: 1,
+    voteCount: 1,
+  );
+
+  final tTvSeriesList = <TvSeries>[tTvSeries];
+
   tearDown(() => popularTvSeriesCubit.close());
 
   test(
@@ -32,7 +46,7 @@ void main() {
     build: () => popularTvSeriesCubit,
     act: (PopularTvSeriesCubit cubit) {
       when(mockGetPopularTvSeries.execute())
-          .thenAnswer((_) async => const Right([]));
+          .thenAnswer((_) async => Right(tTvSeriesList));
 
       cubit.fetchPopularTvSeries();
     },

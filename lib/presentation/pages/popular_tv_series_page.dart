@@ -25,6 +25,13 @@ class PopularTvSeriesPage extends StatelessWidget {
               );
             }
 
+            if (popularTvSeriesState is PopularTvSeriesFailed) {
+              return Center(
+                key: Key('error_message'),
+                child: Text(popularTvSeriesState.message),
+              );
+            }
+
             if (popularTvSeriesState is PopularTvSeriesLoaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -34,6 +41,7 @@ class PopularTvSeriesPage extends StatelessWidget {
                 itemCount: popularTvSeriesState.tvSeries.length,
               );
             }
+
             return Container();
           },
         ),

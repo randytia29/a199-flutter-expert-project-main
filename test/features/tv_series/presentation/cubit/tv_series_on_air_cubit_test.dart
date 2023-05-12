@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/failure.dart';
+import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:ditonton/features/tv_series/domain/usecases/get_on_the_air_tv_series.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +21,19 @@ void main() {
         TvSeriesOnAirCubit(onTheAirTvSeries: mockGetOnTheAirTvSeries);
   });
 
+  final tTvSeries = TvSeries(
+    backdropPath: 'backdropPath',
+    genreIds: [1, 2, 3],
+    id: 1,
+    overview: 'overview',
+    popularity: 1,
+    posterPath: 'posterPath',
+    voteAverage: 1,
+    voteCount: 1,
+  );
+
+  final tTvSeriesList = <TvSeries>[tTvSeries];
+
   tearDown(() => tvSeriesOnAirCubit.close());
 
   test('bloc should have initial state as [TvSeriesOnAirInitial]',
@@ -30,7 +44,7 @@ void main() {
     build: () => tvSeriesOnAirCubit,
     act: (TvSeriesOnAirCubit cubit) {
       when(mockGetOnTheAirTvSeries.execute())
-          .thenAnswer((_) async => const Right([]));
+          .thenAnswer((_) async => Right(tTvSeriesList));
 
       cubit.fetchOnTheAirTvSeries();
     },
