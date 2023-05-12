@@ -1,3 +1,4 @@
+import 'package:ditonton/features/tv_series/presentation/cubit/popular_tv_series_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/helpers/database_helper.dart';
 import 'package:ditonton/features/movie/data/datasources/movie_local_data_source.dart';
@@ -22,7 +23,6 @@ import 'package:ditonton/features/movie/presentation/provider/movie_detail_notif
 import 'package:ditonton/features/movie/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/popular_tv_series_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/tv_series_detail_notifier.dart';
@@ -50,6 +50,8 @@ void init() {
   // bloc
   locator
       .registerFactory(() => TvSeriesOnAirCubit(onTheAirTvSeries: locator()));
+  locator
+      .registerFactory(() => PopularTvSeriesCubit(popularTvSeries: locator()));
 
   // provider
   locator.registerFactory(
@@ -93,11 +95,6 @@ void init() {
         getOnTheAirTvSeries: locator(),
         getPopularTvSeries: locator(),
         getTopRatedTvSeries: locator()),
-  );
-  locator.registerFactory(
-    () => PopularTvSeriesNotifier(
-      locator(),
-    ),
   );
   locator.registerFactory(
     () => TopRatedTvSeriesNotifier(getTopRatedTvSeries: locator()),

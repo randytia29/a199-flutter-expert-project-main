@@ -1,58 +1,43 @@
-import 'package:ditonton/features/tv_series/presentation/provider/popular_tv_series_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/state_enum.dart';
+import '../../features/tv_series/presentation/cubit/popular_tv_series_cubit.dart';
 
-class PopularTvSeriesPage extends StatefulWidget {
+class PopularTvSeriesPage extends StatelessWidget {
   static const ROUTE_NAME = '/popular-tv-series';
 
   const PopularTvSeriesPage({Key? key}) : super(key: key);
 
   @override
-  State<PopularTvSeriesPage> createState() => _PopularTvSeriesPageState();
-}
-
-class _PopularTvSeriesPageState extends State<PopularTvSeriesPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularTvSeriesNotifier>(context, listen: false)
-            .fetchPopularTvSeries());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Popular TV Series'),
+      appBar: AppBar(
+        title: Text('Popular TV Series'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<PopularTvSeriesCubit, PopularTvSeriesState>(
+          builder: (context, popularTvSeriesState) {
+            if (popularTvSeriesState is PopularTvSeriesLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (popularTvSeriesState is PopularTvSeriesLoaded) {
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final tvSeries = popularTvSeriesState.tvSeries[index];
+                  return TvSeriesCard(tvSeries);
+                },
+                itemCount: popularTvSeriesState.tvSeries.length,
+              );
+            }
+            return Container();
+          },
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Consumer<PopularTvSeriesNotifier>(
-            builder: (context, data, child) {
-              if (data.state == RequestState.Loading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (data.state == RequestState.Loaded) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final tvSeries = data.tvSeries[index];
-                    return TvSeriesCard(tvSeries);
-                  },
-                  itemCount: data.tvSeries.length,
-                );
-              } else {
-                return Center(
-                  key: Key('error_message'),
-                  child: Text(data.message),
-                );
-              }
-            },
-          ),
-        ));
+      ),
+    );
   }
 }
