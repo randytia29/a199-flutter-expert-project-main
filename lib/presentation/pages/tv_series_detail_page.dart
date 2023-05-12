@@ -1,17 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/features/movie/domain/entities/genre.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 
 import '../../features/tv_series/presentation/cubit/change_watchlist_tv_series_cubit.dart';
 import '../../features/tv_series/presentation/cubit/tv_series_detail_cubit.dart';
 import '../../features/tv_series/presentation/cubit/tv_series_recommendation_cubit.dart';
 import '../../features/tv_series/presentation/cubit/tv_series_watchlist_status_cubit.dart';
-import '../../features/tv_series/presentation/provider/tv_series_detail_notifier.dart';
 import '../../features/tv_series/presentation/widgets/button_watchlist_tv_series.dart';
 import '../../features/tv_series/presentation/widgets/recommendation_tv_series.dart';
 
@@ -35,13 +32,6 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
         .read<TvSeriesRecommendationCubit>()
         .fetchTvSeriesRecommendation(widget.id);
     context.read<TvSeriesWatchlistStatusCubit>().loadWatchlistStatus(widget.id);
-
-    Future.microtask(() {
-      Provider.of<TvSeriesDetailNotifier>(context, listen: false)
-          .fetchTvSeriesDetail(widget.id);
-      Provider.of<TvSeriesDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
-    });
   }
 
   @override
@@ -74,21 +64,7 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
                 });
           }
         },
-        child: Consumer<TvSeriesDetailNotifier>(
-          builder: (context, provider, child) {
-            if (provider.tvSeriesState == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (provider.tvSeriesState == RequestState.Loaded) {
-              return SafeArea(
-                child: DetailContent(),
-              );
-            } else {
-              return Text(provider.message);
-            }
-          },
-        ),
+        child: DetailContent(),
       ),
     );
   }

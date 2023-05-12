@@ -21,7 +21,6 @@ import 'package:ditonton/features/movie/presentation/provider/movie_list_notifie
 import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/tv_series_detail_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/tv_series_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/features/tv_series/presentation/provider/watchlist_tv_series_notifier.dart';
@@ -60,9 +59,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => di.locator<TvSeriesDetailNotifier>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<TvSeriesSearchNotifier>(),
