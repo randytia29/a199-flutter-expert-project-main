@@ -2,9 +2,9 @@ import 'package:ditonton/features/movie/domain/entities/movie.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/movie/domain/usecases/get_now_playing_movies.dart';
-import '../../features/movie/domain/usecases/get_popular_movies.dart';
-import '../../features/movie/domain/usecases/get_top_rated_movies.dart';
+import '../../domain/usecases/get_now_playing_movies.dart';
+import '../../domain/usecases/get_popular_movies.dart';
+import '../../domain/usecases/get_top_rated_movies.dart';
 
 class MovieListNotifier extends ChangeNotifier {
   var _nowPlayingMovies = <Movie>[];

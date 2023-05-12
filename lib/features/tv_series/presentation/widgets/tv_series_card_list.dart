@@ -3,7 +3,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/tv_series_detail_page.dart';
+import '../../../../presentation/pages/tv_series_detail_page.dart';
 
 class TvSeriesCard extends StatelessWidget {
   final TvSeries tvSeries;

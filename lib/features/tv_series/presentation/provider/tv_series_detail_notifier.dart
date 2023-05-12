@@ -5,10 +5,10 @@ import 'package:ditonton/features/tv_series/domain/usecases/remove_tv_series_wat
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/tv_series/domain/entities/tv_series_detail.dart';
-import '../../features/tv_series/domain/usecases/get_tv_series_detail.dart';
-import '../../features/tv_series/domain/usecases/get_tv_series_recommendations.dart';
-import '../../features/tv_series/domain/usecases/save_tv_series_watchlist.dart';
+import '../../domain/entities/tv_series_detail.dart';
+import '../../domain/usecases/get_tv_series_detail.dart';
+import '../../domain/usecases/get_tv_series_recommendations.dart';
+import '../../domain/usecases/save_tv_series_watchlist.dart';
 
 class TvSeriesDetailNotifier extends ChangeNotifier {
   static const watchlistAddSuccessMessage = 'Added to Watchlist';

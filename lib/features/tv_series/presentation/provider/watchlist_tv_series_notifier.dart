@@ -2,7 +2,7 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/features/tv_series/domain/entities/tv_series.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../features/tv_series/domain/usecases/get_watchlist_tv_series.dart';
+import '../../domain/usecases/get_watchlist_tv_series.dart';
 
 class WatchlistTvSeriesNotifier extends ChangeNotifier {
   var _watchlistTvSeries = <TvSeries>[];

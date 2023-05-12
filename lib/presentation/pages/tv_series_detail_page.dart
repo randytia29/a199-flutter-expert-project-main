@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/tv_series/domain/entities/tv_series_detail.dart';
-import '../provider/tv_series_detail_notifier.dart';
+import '../../features/tv_series/presentation/provider/tv_series_detail_notifier.dart';
 
 class TvSeriesDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail-tv-series';

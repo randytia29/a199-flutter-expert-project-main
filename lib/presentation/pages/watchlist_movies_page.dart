@@ -1,9 +1,9 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_tv_series_notifier.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
-import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
+import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:ditonton/features/tv_series/presentation/provider/watchlist_tv_series_notifier.dart';
+import 'package:ditonton/features/movie/presentation/widgets/movie_card_list.dart';
+import 'package:ditonton/features/tv_series/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

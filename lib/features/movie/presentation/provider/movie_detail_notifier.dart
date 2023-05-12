@@ -4,11 +4,11 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/movie/domain/usecases/get_movie_detail.dart';
-import '../../features/movie/domain/usecases/get_movie_recommendations.dart';
-import '../../features/movie/domain/usecases/get_watchlist_status.dart';
-import '../../features/movie/domain/usecases/remove_watchlist.dart';
-import '../../features/movie/domain/usecases/save_watchlist.dart';
+import '../../domain/usecases/get_movie_detail.dart';
+import '../../domain/usecases/get_movie_recommendations.dart';
+import '../../domain/usecases/get_watchlist_status.dart';
+import '../../domain/usecases/remove_watchlist.dart';
+import '../../domain/usecases/save_watchlist.dart';
 
 class MovieDetailNotifier extends ChangeNotifier {
   static const watchlistAddSuccessMessage = 'Added to Watchlist';

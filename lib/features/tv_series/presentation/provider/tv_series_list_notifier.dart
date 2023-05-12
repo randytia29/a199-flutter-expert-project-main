@@ -4,7 +4,7 @@ import 'package:ditonton/features/tv_series/domain/usecases/get_popular_tv_serie
 import 'package:ditonton/features/tv_series/domain/usecases/get_top_rated_tv_series.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../common/state_enum.dart';
+import '../../../../common/state_enum.dart';
 
 class TvSeriesListNotifier extends ChangeNotifier {
   var _onTheAirTvSeries = <TvSeries>[];
