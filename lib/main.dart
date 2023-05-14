@@ -8,6 +8,7 @@ import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_search_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_watchlist_status_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/watchlist_tv_series_cubit.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
@@ -24,7 +25,10 @@ import 'package:ditonton/features/movie/presentation/provider/movie_search_notif
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +36,19 @@ import 'package:ditonton/injection.dart' as di;
 
 import 'features/tv_series/presentation/cubit/tv_series_recommendation_cubit.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterError.onError = (details) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  };
+  PlatformDispatcher.instance.onError = (exception, stackTrace) {
+    FirebaseCrashlytics.instance
+        .recordError(exception, stackTrace, fatal: true);
+
+    return true;
+  };
+
   di.init();
   runApp(MyApp());
 }
