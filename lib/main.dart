@@ -33,7 +33,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:http/http.dart' as http;
 
+import 'common/shared.dart';
 import 'features/tv_series/presentation/cubit/tv_series_recommendation_cubit.dart';
 
 Future<void> main() async {
@@ -48,6 +50,8 @@ Future<void> main() async {
 
     return true;
   };
+
+  await HttpSSLPinning.init();
 
   di.init();
   runApp(MyApp());
@@ -161,5 +165,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class HttpSSLPinning {
+  static Future<http.Client> get _instance async =>
+      _clientInstance ??= await Shared.createLEClient();
+  static http.Client? _clientInstance;
+  static http.Client get client => _clientInstance ?? http.Client();
+  static Future<void> init() async {
+    _clientInstance = await _instance;
   }
 }

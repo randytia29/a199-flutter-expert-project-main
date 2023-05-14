@@ -116,7 +116,7 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
 
                   if (tvSeriess.isEmpty) {
                     return Center(
-                      child: Text('Tidak ada daftar '),
+                      child: Text('Tidak ada watchlist disimpan'),
                     );
                   }
 

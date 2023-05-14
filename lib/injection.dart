@@ -32,7 +32,7 @@ import 'package:ditonton/features/movie/presentation/provider/movie_search_notif
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:http/http.dart' as http;
+import 'package:ditonton/main.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/movie/domain/usecases/get_movie_detail.dart';
@@ -154,5 +154,5 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => HttpSSLPinning.client);
 }
