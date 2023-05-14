@@ -7,6 +7,7 @@ import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_detail_
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_on_air_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_search_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/tv_series_watchlist_status_cubit.dart';
+import 'package:ditonton/features/tv_series/presentation/cubit/watchlist_tv_series_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
@@ -23,7 +24,6 @@ import 'package:ditonton/features/movie/presentation/provider/movie_search_notif
 import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/features/tv_series/presentation/provider/watchlist_tv_series_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,9 +60,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistMovieNotifier>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvSeriesNotifier>(),
-        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -89,6 +86,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => di.locator<TvSeriesSearchCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<WatchlistTvSeriesCubit>(),
           ),
         ],
         child: MaterialApp(
