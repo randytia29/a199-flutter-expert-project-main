@@ -1,11 +1,9 @@
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/features/movie/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
+import '../../features/movie/presentation/cubit/movie_search_cubit.dart';
 import '../../features/tv_series/presentation/cubit/tv_series_search_cubit.dart';
 import '../../features/tv_series/presentation/widgets/tv_series_card_list.dart';
 
@@ -45,9 +43,7 @@ class _SearchPageState extends State<SearchPage>
           children: [
             TextField(
               onSubmitted: (query) {
-                Provider.of<MovieSearchNotifier>(context, listen: false)
-                    .fetchMovieSearch(query);
-
+                context.read<MovieSearchCubit>().fetchMovieSearch(query);
                 context.read<TvSeriesSearchCubit>().fetchTvSeriesSearch(query);
               },
               decoration: InputDecoration(
@@ -83,25 +79,45 @@ class _SearchPageState extends State<SearchPage>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  Consumer<MovieSearchNotifier>(
-                    builder: (context, data, child) {
-                      if (data.state == RequestState.Loading) {
+                  BlocBuilder<MovieSearchCubit, MovieSearchState>(
+                    builder: (context, movieSearchState) {
+                      if (movieSearchState is MovieSearchLoading) {
                         return Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else if (data.state == RequestState.Loaded) {
-                        final result = data.searchResult;
+                      }
+
+                      if (movieSearchState is MovieSearchInitial) {
+                        return Container(
+                          child: Center(
+                            child: Text('Tidak ada daftar yang ditampilkan'),
+                          ),
+                        );
+                      }
+
+                      if (movieSearchState is MovieSearchLoaded) {
+                        final movies = movieSearchState.movies;
+
+                        if (movies.isEmpty) {
+                          return Container(
+                            child: Center(
+                              child: Text('Tidak ada daftar yang ditampilkan'),
+                            ),
+                          );
+                        }
+
                         return ListView.builder(
                           padding: const EdgeInsets.all(8),
                           itemBuilder: (context, index) {
-                            final movie = data.searchResult[index];
-                            return MovieCard(movie);
+                            final tvSerie = movies[index];
+
+                            return MovieCard(tvSerie);
                           },
-                          itemCount: result.length,
+                          itemCount: movies.length,
                         );
-                      } else {
-                        return Container();
                       }
+
+                      return Container();
                     },
                   ),
                   BlocBuilder<TvSeriesSearchCubit, TvSeriesSearchState>(
