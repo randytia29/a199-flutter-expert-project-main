@@ -9,7 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../dummy_data/dummy_objects.dart';
-import '../provider/movie_detail_notifier_test.mocks.dart';
+import 'change_watchlist_movie_cubit_test.mocks.dart';
 
 @GenerateMocks([SaveWatchlist, RemoveWatchlist])
 void main() {

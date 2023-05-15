@@ -32,12 +32,6 @@ import 'package:ditonton/features/tv_series/domain/usecases/get_watchlist_tv_ser
 import 'package:ditonton/features/tv_series/domain/usecases/remove_tv_series_watchlist.dart';
 import 'package:ditonton/features/tv_series/domain/usecases/save_tv_series_watchlist.dart';
 import 'package:ditonton/features/tv_series/domain/usecases/search_tv_series.dart';
-import 'package:ditonton/features/movie/presentation/provider/movie_detail_notifier.dart';
-import 'package:ditonton/features/movie/presentation/provider/movie_list_notifier.dart';
-import 'package:ditonton/features/movie/presentation/provider/movie_search_notifier.dart';
-import 'package:ditonton/features/movie/presentation/provider/popular_movies_notifier.dart';
-import 'package:ditonton/features/movie/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/features/movie/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/main.dart';
 import 'package:get_it/get_it.dart';
 
@@ -93,44 +87,6 @@ void init() {
   locator.registerFactory(() => TvSeriesSearchCubit(tvSeriesSearch: locator()));
   locator.registerFactory(
       () => WatchlistTvSeriesCubit(watchlistTvSeries: locator()));
-
-  // provider
-  locator.registerFactory(
-    () => MovieListNotifier(
-      getNowPlayingMovies: locator(),
-      getPopularMovies: locator(),
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieDetailNotifier(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => PopularMoviesNotifier(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedMoviesNotifier(
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => WatchlistMovieNotifier(
-      getWatchlistMovies: locator(),
-    ),
-  );
 
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
