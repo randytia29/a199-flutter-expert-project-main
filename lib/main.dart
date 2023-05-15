@@ -28,6 +28,7 @@ import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,10 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -128,7 +133,7 @@ class MyApp extends StatelessWidget {
           textTheme: kTextTheme,
         ),
         home: HomeMoviePage(),
-        navigatorObservers: [routeObserver],
+        navigatorObservers: [routeObserver, observer],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/home':
