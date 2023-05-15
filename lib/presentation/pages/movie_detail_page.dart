@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/features/movie/domain/entities/genre.dart';
-import 'package:ditonton/features/movie/domain/entities/movie.dart';
-import 'package:ditonton/features/movie/domain/entities/movie_detail.dart';
-import 'package:ditonton/features/movie/presentation/provider/movie_detail_notifier.dart';
-import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/features/movie/presentation/widgets/button_watchlist_movie.dart';
+import 'package:ditonton/features/movie/presentation/widgets/recommendation_movie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
+
+import '../../features/movie/presentation/cubit/change_watchlist_movie_cubit.dart';
+import '../../features/movie/presentation/cubit/movie_detail_cubit.dart';
+import '../../features/movie/presentation/cubit/movie_recommendation_cubit.dart';
+import '../../features/movie/presentation/cubit/movie_watchlist_status_cubit.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail-movie';
@@ -23,259 +26,177 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<MovieDetailNotifier>(context, listen: false)
-          .fetchMovieDetail(widget.id);
-      Provider.of<MovieDetailNotifier>(context, listen: false)
-          .loadWatchlistStatus(widget.id);
-    });
+    context.read<MovieDetailCubit>().fetchMovieDetail(widget.id);
+    context
+        .read<MovieRecommendationCubit>()
+        .fetchMovieRecommendation(widget.id);
+    context.read<MovieWatchlistStatusCubit>().loadWatchlistStatus(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<MovieDetailNotifier>(
-        builder: (context, provider, child) {
-          if (provider.movieState == RequestState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (provider.movieState == RequestState.Loaded) {
-            final movie = provider.movie;
-            return SafeArea(
-              child: DetailContent(
-                movie,
-                provider.movieRecommendations,
-                provider.isAddedToWatchlist,
+      body: BlocListener<ChangeWatchlistMovieCubit, ChangeWatchlistMovieState>(
+        listener: (context, changeWatchlistMovieState) {
+          if (changeWatchlistMovieState is ChangeWatchlistMovieLoaded) {
+            context
+                .read<MovieWatchlistStatusCubit>()
+                .loadWatchlistStatus(widget.id);
+
+            ScaffoldMessenger.of(context).clearSnackBars();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(changeWatchlistMovieState.message),
               ),
             );
-          } else {
-            return Text(provider.message);
+          }
+
+          if (changeWatchlistMovieState is ChangeWatchlistMovieFailed) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text(changeWatchlistMovieState.message),
+                  );
+                });
           }
         },
+        child: DetailContent(),
       ),
     );
   }
 }
 
 class DetailContent extends StatelessWidget {
-  final MovieDetail movie;
-  final List<Movie> recommendations;
-  final bool isAddedWatchlist;
-
-  DetailContent(this.movie, this.recommendations, this.isAddedWatchlist);
+  DetailContent();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        CachedNetworkImage(
-          imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-          width: screenWidth,
-          placeholder: (context, url) => Center(
+    return BlocBuilder<MovieDetailCubit, MovieDetailState>(
+      builder: (context, movieDetailState) {
+        if (movieDetailState is MovieDetailLoading) {
+          return Center(
             child: CircularProgressIndicator(),
-          ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 48 + 8),
-          child: DraggableScrollableSheet(
-            builder: (context, scrollController) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: kRichBlack,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                ),
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  top: 16,
-                  right: 16,
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 16),
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              movie.title,
-                              style: kHeadlineSmall,
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (!isAddedWatchlist) {
-                                  await Provider.of<MovieDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .addWatchlist(movie);
-                                } else {
-                                  await Provider.of<MovieDetailNotifier>(
-                                          context,
-                                          listen: false)
-                                      .removeFromWatchlist(movie);
-                                }
+          );
+        }
 
-                                final message =
-                                    Provider.of<MovieDetailNotifier>(context,
-                                            listen: false)
-                                        .watchlistMessage;
+        if (movieDetailState is MovieDetailFailed) {
+          return Text(movieDetailState.message);
+        }
 
-                                if (message ==
-                                        MovieDetailNotifier
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        MovieDetailNotifier
-                                            .watchlistRemoveSuccessMessage) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(message)));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      });
-                                }
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
+        if (movieDetailState is MovieDetailLoaded) {
+          final movie = movieDetailState.movieDetail;
+
+          return Stack(
+            children: [
+              CachedNetworkImage(
+                imageUrl: 'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                width: screenWidth,
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 48 + 8),
+                child: DraggableScrollableSheet(
+                  builder: (context, scrollController) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: kRichBlack,
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                      ),
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        top: 16,
+                        right: 16,
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 16),
+                            child: SingleChildScrollView(
+                              controller: scrollController,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  isAddedWatchlist
-                                      ? Icon(Icons.check)
-                                      : Icon(Icons.add),
-                                  Text('Watchlist'),
+                                  Text(
+                                    movie.title,
+                                    style: kHeadlineSmall,
+                                  ),
+                                  ButtonWatchlistMovie(movie: movie),
+                                  Text(
+                                    _showGenres(movie.genres),
+                                  ),
+                                  Text(
+                                    _showDuration(movie.runtime),
+                                  ),
+                                  Row(
+                                    children: [
+                                      RatingBarIndicator(
+                                        rating: movie.voteAverage / 2,
+                                        itemCount: 5,
+                                        itemBuilder: (context, index) => Icon(
+                                          Icons.star,
+                                          color: kMikadoYellow,
+                                        ),
+                                        itemSize: 24,
+                                      ),
+                                      Text('${movie.voteAverage}')
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+                                  Text(
+                                    'Overview',
+                                    style: kTitleLarge,
+                                  ),
+                                  Text(
+                                    movie.overview,
+                                  ),
+                                  SizedBox(height: 16),
+                                  RecommendationMovie(),
                                 ],
                               ),
                             ),
-                            Text(
-                              _showGenres(movie.genres),
+                          ),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              color: Colors.white,
+                              height: 4,
+                              width: 48,
                             ),
-                            Text(
-                              _showDuration(movie.runtime),
-                            ),
-                            Row(
-                              children: [
-                                RatingBarIndicator(
-                                  rating: movie.voteAverage / 2,
-                                  itemCount: 5,
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: kMikadoYellow,
-                                  ),
-                                  itemSize: 24,
-                                ),
-                                Text('${movie.voteAverage}')
-                              ],
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'Overview',
-                              style: kTitleLarge,
-                            ),
-                            Text(
-                              movie.overview,
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              'Recommendations',
-                              style: kTitleLarge,
-                            ),
-                            Consumer<MovieDetailNotifier>(
-                              builder: (context, data, child) {
-                                if (data.recommendationState ==
-                                    RequestState.Loading) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (data.recommendationState ==
-                                    RequestState.Error) {
-                                  return Text(data.message);
-                                } else if (data.recommendationState ==
-                                    RequestState.Loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final movie = recommendations[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                MovieDetailPage.ROUTE_NAME,
-                                                arguments: movie.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: recommendations.length,
-                                    ),
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        color: Colors.white,
-                        height: 4,
-                        width: 48,
-                      ),
-                    ),
-                  ],
+                    );
+                  },
+                  // initialChildSize: 0.5,
+                  minChildSize: 0.25,
+                  // maxChildSize: 1.0,
                 ),
-              );
-            },
-            // initialChildSize: 0.5,
-            minChildSize: 0.25,
-            // maxChildSize: 1.0,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: kRichBlack,
-            foregroundColor: Colors.white,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        )
-      ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  backgroundColor: kRichBlack,
+                  foregroundColor: Colors.white,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              )
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 

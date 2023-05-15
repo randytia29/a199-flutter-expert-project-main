@@ -1,6 +1,10 @@
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
+import 'package:ditonton/features/movie/presentation/cubit/change_watchlist_movie_cubit.dart';
+import 'package:ditonton/features/movie/presentation/cubit/movie_detail_cubit.dart';
 import 'package:ditonton/features/movie/presentation/cubit/movie_now_playing_cubit.dart';
+import 'package:ditonton/features/movie/presentation/cubit/movie_recommendation_cubit.dart';
+import 'package:ditonton/features/movie/presentation/cubit/movie_watchlist_status_cubit.dart';
 import 'package:ditonton/features/movie/presentation/cubit/popular_movie_cubit.dart';
 import 'package:ditonton/features/movie/presentation/cubit/top_rated_movie_cubit.dart';
 import 'package:ditonton/features/tv_series/presentation/cubit/change_watchlist_tv_series_cubit.dart';
@@ -121,6 +125,18 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => di.locator<TopRatedMovieCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<MovieDetailCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<MovieRecommendationCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<MovieWatchlistStatusCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => di.locator<ChangeWatchlistMovieCubit>(),
           ),
         ],
         child: MaterialApp(
